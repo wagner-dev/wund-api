@@ -1,0 +1,162 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Wund",
+    "description": "API destinada ao app Wund, um projeto social desenvolvido pelo 3º ano do curso de informáticada escola E.E.E.P Irmã Ana Zélia da Fonseca, que tem como objetivo contribuir a população no que tange à saude mental.",
+    "contact": {
+      "name": "Wagner Leandro",
+      "email": "wagnerleandro.developer@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/wagner-dev/api-wund/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://heroku.apiv/api-wund/1.0.0",
+      "description": "Servidor padrão heroku"
+    }
+  ],
+  "tags": [
+    {
+      "name": "psychologist",
+      "description": "Manipulação da coleção de psicólogos"
+    }
+  ],
+  "paths": {
+    "/psychologists": {
+      "get": {
+        "tags": [
+          "psychologist"
+        ],
+        "summary": "retorna uma lista com todos os psicólogos registrados",
+        "description": "Através disso, você tem acesso a todos os psicólogos cadastrados no banco de dados\n",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "número máximo de registros a serem retornados",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK SUCCESS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StatusOk"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND"
+          },
+          "429": {
+            "description": "TOO MANY REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusTooManyRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StatusOk": {
+        "required": [
+          "id",
+          "manufacturer",
+          "name",
+          "releaseDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name": {
+            "type": "string",
+            "example": "Widget Adapter"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2016-08-29T09:12:33.001Z"
+          }
+        }
+      },
+      "StatusServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Ocorreu um erro no servidor"
+          },
+          "code": {
+            "type": "integer",
+            "example": 500
+          },
+          "error": {
+            "type": "string",
+            "example": "server-error"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2016-08-29T09:12:33.001Z"
+          }
+        }
+      },
+      "StatusTooManyRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Você solicitou muitas requisições em um curto intervalo de tempo. Por favor, aguarde."
+          },
+          "code": {
+            "type": "integer",
+            "example": 429
+          },
+          "error": {
+            "type": "string",
+            "example": "too-many-request"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2016-08-29T09:12:33.001Z"
+          }
+        }
+      }
+    }
+  }
+}
