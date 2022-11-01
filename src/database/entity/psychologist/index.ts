@@ -17,6 +17,11 @@ class Psychologist {
     })
     description: string
 
+    @Column({
+      length: 1200
+    })
+    localization: string
+
     @CreateDateColumn()
     createdAt: Date
 
